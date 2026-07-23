@@ -20,7 +20,8 @@ static const uint16_t MQTT_PORT = 8883;
 // HiveMQ Cloud requires username/password auth (no anonymous access). Create a
 // credential under the cluster's "Access Management" tab and paste it here.
 // Until you do, the broker will refuse the connection.
-
+static const char *MQTT_USER = "----";
+static const char *MQTT_PASS = "passHiveMQ";
 
 static const char *MQTT_TOPIC = "Node1/Location1";
 static const char *MQTT_CLIENT_ID = "esp32c3-node1";

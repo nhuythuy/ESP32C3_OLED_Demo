@@ -37,6 +37,7 @@ its data and its rendering**. Current modules:
 |------|----------------|
 | `main.cpp` | **Only** setup + global orchestration (WiFi, button, page-switch state machine). No drawing, no sensor I/O, no time formatting. |
 | `display.h` | The `u8g2` panel object, I2C pins, `drawCentered()`, `displayBegin()`, `displayRenderPage()`, the `PageRenderFn` type. |
+| `wifi_manager.h` | Non-blocking multi-AP WiFi manager (`WIFI_APS[]` list, `wifiBegin()`, `wifiUpdate()`). |
 | `clock_page.h` | NTP setup + clock page. |
 | `dht_sensor.h` | DHT11 data + its page. |
 | `analog_page.h` | Analog inputs + their page. |
@@ -134,7 +135,7 @@ Add libraries to `platformio.ini` under `lib_deps`.
 
 ## ⚠️ Credentials
 
-WiFi credentials live in `main.cpp` and MQTT credentials in `mqtt_report.h`, as
-hardcoded `static const char *` values. **These are secrets** — this repo has a
+WiFi credentials live in `wifi_manager.h` (the `WIFI_APS[]` list) and MQTT
+credentials in `mqtt_report.h`, as hardcoded `static const char *` values. **These are secrets** — this repo has a
 remote, so avoid committing real values. Prefer placeholders in git and keep
 real credentials local (or in a git-ignored config header).

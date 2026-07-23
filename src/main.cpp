@@ -2,15 +2,12 @@
 #include <WiFi.h>
 
 #include "display.h"
+#include "wifi_manager.h"
 #include "clock_page.h"
 #include "dht_sensor.h"
 #include "analog_page.h"
 #include "mqtt_page.h"
 #include "mqtt_report.h"
-
-// WiFi credentials
-static const char *WIFI_SSID = "WiFi-Guest";  // Replace with your WiFi SSID
-static const char *WIFI_PASS = "WifiPass!";
 
 // BOOT button ("BO0"/IO9) on the ESP32-C3. Active low: pressed pulls the line
 // to GND, so we enable the internal pull-up and treat LOW as "pressed".
@@ -81,10 +78,8 @@ void setup() {
   analogBegin();
   mqttReportBegin();
 
-  // Start WiFi non-blocking so the pages keep switching while it connects.
-  WiFi.mode(WIFI_STA);
-  WiFi.setAutoReconnect(true);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  // Start WiFi (non-blocking, multi-AP) so pages keep switching while it connects.
+  wifiBegin();
 
   unsigned long now = millis();
   lastAutoSwitchMs = now;
@@ -94,6 +89,7 @@ void setup() {
 void loop() {
   unsigned long now = millis();
 
+  wifiUpdate();        // cycles through WiFi APs until one connects
   clockUpdate();       // kicks off NTP once WiFi is up
   mqttReportUpdate();  // publishes temp/humidity JSON every 10 s
 
