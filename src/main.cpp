@@ -4,6 +4,7 @@
 #include "display.h"
 #include "clock_page.h"
 #include "dht_sensor.h"
+#include "analog_page.h"
 
 // WiFi credentials
 static const char *WIFI_SSID = "WiFi-Guest";  // Replace with your WiFi SSID
@@ -25,6 +26,7 @@ static const unsigned long DEBOUNCE_MS = 40;          // button debounce window
 static const PageRenderFn PAGES[] = {
   renderClockPage,
   renderDhtPage,
+  renderAnalogPage,
 };
 static const size_t PAGE_COUNT = sizeof(PAGES) / sizeof(PAGES[0]);
 
@@ -73,6 +75,7 @@ void setup() {
   displayBegin();
   pinMode(BOOT_BTN_PIN, INPUT_PULLUP);
   dhtBegin();
+  analogBegin();
 
   // Start WiFi non-blocking so the pages keep switching while it connects.
   WiFi.mode(WIFI_STA);
