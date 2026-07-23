@@ -57,10 +57,13 @@ inline DhtReading dhtRead() {
   return last;
 }
 
-// Page: DHT11 temperature & humidity, or "N/A" when not connected.
+// Page: DHT11 temperature & humidity. Valid readings show solid; when the
+// sensor is not connected, "N/A" blinks (~1 Hz) to flag the error. This panel
+// is monochrome (SSD1306) so we can't use colour -- blinking is the alarm cue.
 inline void renderDhtPage() {
   DhtReading r = dhtRead();
 
+  // Header stays solid so the page is always identifiable.
   u8g2.setFont(u8g2_font_5x7_tf);
   drawCentered("DHT11", 8);
 
@@ -72,7 +75,11 @@ inline void renderDhtPage() {
     snprintf(line, sizeof(line), "H: %.0f %%", r.humidity);
     drawCentered(line, 38);
   } else {
-    drawCentered("T: N/A", 24);
-    drawCentered("H: N/A", 38);
+    // Blink on for 500 ms, off for 500 ms (driven by millis(), non-blocking).
+    bool visible = (millis() / 500) % 2 == 0;
+    if (visible) {
+      drawCentered("T: N/A", 24);
+      drawCentered("H: N/A", 38);
+    }
   }
 }
