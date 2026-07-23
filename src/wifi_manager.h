@@ -2,25 +2,16 @@
 #include <Arduino.h>
 #include <WiFi.h>
 
+#include "secrets.h"  // WifiCred, WIFI_APS[], WIFI_AP_COUNT (git-ignored)
+
 // Non-blocking multi-AP WiFi manager. Tries each access point in WIFI_APS in
 // turn, giving each WIFI_ATTEMPT_MS to associate before moving on, and keeps
 // cycling until one connects. It never blocks, so the display keeps switching
 // pages and the BOOT button stays responsive while it searches.
-
-struct WifiCred {
-  const char *ssid;
-  const char *pass;
-};
-
-// Access points to try, in order -- put your most-likely networks first. Add or
-// remove entries freely; the manager adapts to the array size. Leave a row's
-// ssid empty ("") to skip it, so unused template rows cost no connection time.
-static const WifiCred WIFI_APS[] = {
-  {"Moen Marin Guest", "WifiPass!"},  // <- replace with your networks
-  {"BNHOME_2G", "PlanetEarth"},
-  {"", ""},
-};
-static const size_t WIFI_AP_COUNT = sizeof(WIFI_APS) / sizeof(WIFI_APS[0]);
+//
+// The access-point list (WIFI_APS[] / WIFI_AP_COUNT) and its WifiCred type live
+// in secrets.h so real credentials stay out of git. Add/remove rows there;
+// leave a row's ssid empty ("") to skip it.
 
 // How long to wait for one AP to connect before trying the next.
 static const unsigned long WIFI_ATTEMPT_MS = 8000;

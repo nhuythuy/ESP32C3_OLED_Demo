@@ -6,22 +6,14 @@
 
 #include "dht_sensor.h"
 #include "mqtt_page.h"
+#include "secrets.h"  // MQTT_HOST, MQTT_USER, MQTT_PASS (git-ignored)
 
 // Reports the DHT11 temperature/humidity as JSON to a HiveMQ Cloud broker every
 // MQTT_PUBLISH_MS. Kept separate from the sensor/display code.
 
-// --- Broker (from the cluster's "Connection Details") ----------------------
-// HiveMQ Cloud Free only offers TLS, so we connect on port 8883.
-static const char *MQTT_HOST =
-    ".s1.eu.hivemq.cloud";
+// Broker host + credentials (MQTT_HOST / MQTT_USER / MQTT_PASS) live in
+// secrets.h so they stay out of git. HiveMQ Cloud Free is TLS-only on port 8883.
 static const uint16_t MQTT_PORT = 8883;
-
-// --- Credentials -----------------------------------------------------------
-// HiveMQ Cloud requires username/password auth (no anonymous access). Create a
-// credential under the cluster's "Access Management" tab and paste it here.
-// Until you do, the broker will refuse the connection.
-static const char *MQTT_USER = "----";
-static const char *MQTT_PASS = "passHiveMQ";
 
 static const char *MQTT_TOPIC = "Node1/Location1";
 static const char *MQTT_CLIENT_ID = "esp32c3-node1";

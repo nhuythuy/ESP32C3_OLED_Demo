@@ -138,7 +138,9 @@ Add libraries to `platformio.ini` under `lib_deps`.
 
 ## ⚠️ Credentials
 
-WiFi credentials live in `wifi_manager.h` (the `WIFI_APS[]` list) and MQTT
-credentials in `mqtt_report.h`, as hardcoded `static const char *` values. **These are secrets** — this repo has a
-remote, so avoid committing real values. Prefer placeholders in git and keep
-real credentials local (or in a git-ignored config header).
+Real WiFi and MQTT credentials live in **`src/secrets.h`**, which is
+**git-ignored** (never committed). `wifi_manager.h` and `mqtt_report.h` include
+it for `WIFI_APS[]`, `MQTT_HOST`, `MQTT_USER`, and `MQTT_PASS`. A committed
+template, `src/secrets.example.h`, documents the shape — on a fresh clone copy
+it (`cp src/secrets.example.h src/secrets.h`) and fill in real values. Never put
+real credentials in any tracked file.
