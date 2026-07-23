@@ -5,6 +5,8 @@
 #include "clock_page.h"
 #include "dht_sensor.h"
 #include "analog_page.h"
+#include "mqtt_page.h"
+#include "mqtt_report.h"
 
 // WiFi credentials
 static const char *WIFI_SSID = "WiFi-Guest";  // Replace with your WiFi SSID
@@ -15,7 +17,7 @@ static const char *WIFI_PASS = "WifiPass!";
 #define BOOT_BTN_PIN 9
 
 // Page-switching timing.
-static const unsigned long AUTO_SWITCH_MS = 2000;     // auto-advance interval
+static const unsigned long AUTO_SWITCH_MS = 3000;     // auto-advance interval
 static const unsigned long MANUAL_TIMEOUT_MS = 10000; // idle -> back to auto
 static const unsigned long RENDER_INTERVAL_MS = 250;  // screen refresh cadence
 static const unsigned long DEBOUNCE_MS = 40;          // button debounce window
@@ -27,6 +29,7 @@ static const PageRenderFn PAGES[] = {
   renderClockPage,
   renderDhtPage,
   renderAnalogPage,
+  renderMqttPage,
 };
 static const size_t PAGE_COUNT = sizeof(PAGES) / sizeof(PAGES[0]);
 
@@ -76,6 +79,7 @@ void setup() {
   pinMode(BOOT_BTN_PIN, INPUT_PULLUP);
   dhtBegin();
   analogBegin();
+  mqttReportBegin();
 
   // Start WiFi non-blocking so the pages keep switching while it connects.
   WiFi.mode(WIFI_STA);
@@ -90,7 +94,8 @@ void setup() {
 void loop() {
   unsigned long now = millis();
 
-  clockUpdate();  // kicks off NTP once WiFi is up
+  clockUpdate();       // kicks off NTP once WiFi is up
+  mqttReportUpdate();  // publishes temp/humidity JSON every 10 s
 
   // 1. Handle the BOOT button.
   if (buttonPressed()) {
