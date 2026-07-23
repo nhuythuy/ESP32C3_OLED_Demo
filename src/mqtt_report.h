@@ -13,7 +13,7 @@
 // --- Broker (from the cluster's "Connection Details") ----------------------
 // HiveMQ Cloud Free only offers TLS, so we connect on port 8883.
 static const char *MQTT_HOST =
-    "1e7ae7f3270f4dfd981521d4ffc59667.s1.eu.hivemq.cloud";
+    ".s1.eu.hivemq.cloud";
 static const uint16_t MQTT_PORT = 8883;
 
 // --- Credentials -----------------------------------------------------------

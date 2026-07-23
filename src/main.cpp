@@ -8,6 +8,7 @@
 #include "analog_page.h"
 #include "mqtt_page.h"
 #include "mqtt_report.h"
+#include "exchange_page.h"
 
 // BOOT button ("BO0"/IO9) on the ESP32-C3. Active low: pressed pulls the line
 // to GND, so we enable the internal pull-up and treat LOW as "pressed".
@@ -27,6 +28,7 @@ static const PageRenderFn PAGES[] = {
   renderDhtPage,
   renderAnalogPage,
   renderMqttPage,
+  renderExchangePage,
 };
 static const size_t PAGE_COUNT = sizeof(PAGES) / sizeof(PAGES[0]);
 
@@ -77,6 +79,7 @@ void setup() {
   dhtBegin();
   analogBegin();
   mqttReportBegin();
+  exchangeBegin();
 
   // Start WiFi (non-blocking, multi-AP) so pages keep switching while it connects.
   wifiBegin();

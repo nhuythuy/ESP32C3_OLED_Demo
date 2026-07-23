@@ -43,6 +43,7 @@ its data and its rendering**. Current modules:
 | `analog_page.h` | Analog inputs + their page. |
 | `mqtt_report.h` | MQTT publishing (TLS to HiveMQ). |
 | `mqtt_page.h` | Publish-rate stats + their page. |
+| `exchange_page.h` | NOK/VND + USD/NOK rates, fetched in a background task. |
 
 ### 2. Header-only, single translation unit
 
@@ -90,6 +91,8 @@ The toolchain is `-std=gnu++11` (no C++17 `inline` variables), so:
 - WiFi connects in the background so pages keep switching while it connects.
 - Rendering is throttled to `RENDER_INTERVAL_MS`; pages auto-advance every
   `AUTO_SWITCH_MS`; the manual hold times out after `MANUAL_TIMEOUT_MS`.
+- A blocking network fetch (e.g. the exchange-rate HTTPS GET) runs in a
+  background FreeRTOS task, never in `loop()`; the page renders cached values.
 
 ### 7. Blinking = the monochrome "alarm" cue
 
