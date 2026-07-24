@@ -44,6 +44,7 @@ its data and its rendering**. Current modules:
 | `mqtt_report.h` | MQTT publishing (TLS to HiveMQ). |
 | `mqtt_page.h` | Publish-rate stats + their page. |
 | `exchange_page.h` | NOK/VND + USD/NOK rates, fetched in a background task. |
+| `weather_page.h` | Sunrise/sunset + next rain/snow (or sky), fetched in a background task. |
 
 ### 2. Header-only, single translation unit
 
