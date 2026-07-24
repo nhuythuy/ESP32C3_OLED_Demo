@@ -36,6 +36,17 @@ inline void drawCentered(const char *s, int y) {
   u8g2.drawStr(x, y, s);
 }
 
+// Draw a page title: bold and larger than the body text, centered in the top
+// band at a fixed baseline. Centralized here so every page's title looks the
+// same -- change the font/position once to restyle all page titles.
+inline void drawTitle(const char *s) {
+  u8g2.setFont(u8g2_font_7x13B_tf);
+  int w = u8g2.getStrWidth(s);
+  int x = (72 - w) / 2;
+  if (x < 0) x = 0;
+  u8g2.drawStr(x, 11, s);
+}
+
 // Render one page as a complete frame (clear -> draw -> flush to the panel).
 inline void displayRenderPage(PageRenderFn render) {
   u8g2.clearBuffer();

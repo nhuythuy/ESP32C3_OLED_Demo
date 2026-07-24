@@ -122,8 +122,7 @@ inline void exchangeBegin() {
 // Page: exchange rates. N/V = NOK->VND, U/N = USD->NOK. Blinks "--" until the
 // first successful fetch (the monochrome "no data" cue).
 inline void renderExchangePage() {
-  u8g2.setFont(u8g2_font_5x7_tf);
-  drawCentered("FX", 8);
+  drawTitle("FX");
 
   u8g2.setFont(u8g2_font_6x10_tf);
   char line[16];

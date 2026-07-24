@@ -44,8 +44,7 @@ inline AnalogReading analogReadChannels() {
 inline void renderAnalogPage() {
   AnalogReading r = analogReadChannels();
 
-  u8g2.setFont(u8g2_font_5x7_tf);
-  drawCentered("Analog", 8);
+  drawTitle("Analog");
 
   u8g2.setFont(u8g2_font_6x10_tf);
   char line[16];

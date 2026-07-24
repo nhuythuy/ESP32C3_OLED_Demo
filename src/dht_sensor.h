@@ -64,8 +64,7 @@ inline void renderDhtPage() {
   DhtReading r = dhtRead();
 
   // Header stays solid so the page is always identifiable.
-  u8g2.setFont(u8g2_font_5x7_tf);
-  drawCentered("DHT11", 8);
+  drawTitle("DHT11");
 
   u8g2.setFont(u8g2_font_6x10_tf);
   char line[16];

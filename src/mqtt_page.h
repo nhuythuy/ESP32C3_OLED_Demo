@@ -77,8 +77,7 @@ inline void renderMqttPage() {
 
   // Header: solid when connected, blinking when the connection failed.
   bool showHeader = connected || ((millis() / 500) % 2 == 0);
-  u8g2.setFont(u8g2_font_5x7_tf);
-  if (showHeader) drawCentered("MQTT", 8);
+  if (showHeader) drawTitle("MQTT");
 
   uint32_t minCount = connected ? mqttStatsLastMinute() : 0;
   uint32_t dayCount = connected ? mqttStatsLastDay() : 0;

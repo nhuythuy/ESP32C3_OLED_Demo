@@ -154,21 +154,13 @@ inline void weatherBegin() {
 
 // Page: sunrise / sunset / next-precip-or-current-sky. Blinks until first fetch.
 inline void renderWeatherPage() {
-  u8g2.setFont(u8g2_font_6x10_tf);
-
   if (!weatherValid) {
-    if ((millis() / 500) % 2 == 0) drawCentered("Weather --", 22);
+    if ((millis() / 500) % 2 == 0) drawTitle("Weather");
     return;
   }
 
+  // Weather status as the page title.
   char line[16];
-  snprintf(line, sizeof(line), "Rise %02d:%02d",
-           weatherSunriseMin / 60, weatherSunriseMin % 60);
-  drawCentered(line, 12);
-  snprintf(line, sizeof(line), "Set  %02d:%02d",
-           weatherSunsetMin / 60, weatherSunsetMin % 60);
-  drawCentered(line, 25);
-
   switch (weatherKind) {
     case WX_RAIN:   snprintf(line, sizeof(line), "Rain %02d:00", weatherHour); break;
     case WX_SNOW:   snprintf(line, sizeof(line), "Snow %02d:00", weatherHour); break;
@@ -176,5 +168,14 @@ inline void renderWeatherPage() {
     case WX_SUNNY:  snprintf(line, sizeof(line), "Sunny"); break;
     default:        snprintf(line, sizeof(line), "--"); break;
   }
+  drawTitle(line);
+
+  // Sunrise / sunset below.
+  u8g2.setFont(u8g2_font_6x10_tf);
+  snprintf(line, sizeof(line), "Rise %02d:%02d",
+           weatherSunriseMin / 60, weatherSunriseMin % 60);
+  drawCentered(line, 24);
+  snprintf(line, sizeof(line), "Set  %02d:%02d",
+           weatherSunsetMin / 60, weatherSunsetMin % 60);
   drawCentered(line, 38);
 }
